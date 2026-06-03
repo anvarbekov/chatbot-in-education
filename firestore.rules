@@ -1,0 +1,82 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuth() { return request.auth != null; }
+    function uid() { return request.auth.uid; }
+    function role() {
+      return get(/databases/$(database)/documents/users/$(uid())).data.role;
+    }
+    function isAdmin() { return isAuth() && role() == 'admin'; }
+    function isTeacher() { return isAuth() && (role() == 'teacher' || role() == 'admin'); }
+
+    match /users/{userId} {
+      allow read: if isAuth();
+      allow create: if uid() == userId;
+      allow update: if uid() == userId || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /courses/{courseId} {
+      allow read: if true;
+      allow create: if isTeacher();
+      allow update: if isAdmin() || (isAuth() && resource.data.teacherId == uid());
+      allow delete: if isAdmin() || (isAuth() && resource.data.teacherId == uid());
+    }
+
+    match /lessons/{lessonId} {
+      allow read: if isAuth();
+      allow create: if isTeacher();
+      allow update: if isAdmin() || isTeacher();
+      allow delete: if isAdmin() || isTeacher();
+    }
+
+    match /courseResources/{resId} {
+      allow read: if isAuth();
+      allow create: if isTeacher();
+      allow update: if isAdmin() || isTeacher();
+      allow delete: if isAdmin() || (isAuth() && resource.data.uploaderId == uid());
+    }
+
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if isAuth();
+      allow update: if isAuth() && resource.data.userId == uid();
+      allow delete: if isAdmin() || isTeacher() || (isAuth() && resource.data.userId == uid());
+    }
+
+    match /enrollmentRequests/{reqId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAdmin() || isTeacher();
+      allow delete: if isAdmin();
+    }
+
+    match /resources/{resourceId} {
+      allow read: if isAuth();
+      allow create: if isTeacher();
+      allow update: if isAdmin() || (isAuth() && resource.data.uploaderId == uid());
+      allow delete: if isAdmin() || (isAuth() && resource.data.uploaderId == uid());
+    }
+
+    match /activities/{activityId} {
+      allow read: if isAdmin();
+      allow create: if isAuth();
+      allow delete: if isAdmin();
+    }
+
+    match /materials/{matId} {
+      allow read: if true;
+      allow create: if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /blog/{postId} {
+      allow read: if true;
+      allow create: if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+  }
+}

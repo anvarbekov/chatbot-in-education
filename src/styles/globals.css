@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens ─────────────────────────────────────────────────────────── */
+:root {
+  --bg-primary:    #111318;
+  --bg-card:       #181c24;
+  --bg-surface:    #1d2230;
+  --border-color:  #252c3b;
+  --text-primary:  #d4d8e2;
+  --text-secondary:#7f8799;
+  --accent:        #3a6ef0;
+  --accent-dim:    rgba(58,110,240,0.12);
+  --accent-ring:   rgba(58,110,240,0.25);
+  --radius:        8px;
+  --radius-lg:     12px;
+}
+
+/* ── Light theme ───────────────────────────────────────────────────────────── */
+html.light-theme {
+  --bg-primary:   #f3f4f7;
+  --bg-card:      #ffffff;
+  --bg-surface:   #f8f9fb;
+  --border-color: #e0e3ea;
+  --text-primary: #1a1d27;
+  --text-secondary:#5c6275;
+}
+html.light-theme body { background-color: #f3f4f7; color: #1a1d27; }
+html.light-theme .bg-dark-bg      { background-color: #f3f4f7 !important; }
+html.light-theme .bg-dark-card    { background-color: #ffffff !important; }
+html.light-theme .bg-dark-surface { background-color: #f8f9fb !important; }
+html.light-theme .border-dark-border { border-color: #e0e3ea !important; }
+html.light-theme .text-white      { color: #1a1d27 !important; }
+html.light-theme .text-slate-200  { color: #1e2130 !important; }
+html.light-theme .text-slate-300  { color: #2d3245 !important; }
+html.light-theme .text-slate-400  { color: #434961 !important; }
+html.light-theme .text-slate-500  { color: #5c6275 !important; }
+html.light-theme .text-slate-600  { color: #8b91a5 !important; }
+html.light-theme .bg-dark-card\/80 { background-color: rgba(255,255,255,0.92) !important; }
+html.light-theme .edu-input {
+  background-color: #f8f9fb !important;
+  border-color:     #e0e3ea !important;
+  color:            #1a1d27 !important;
+}
+html.light-theme .skeleton {
+  background: linear-gradient(90deg,#fff 25%,#f3f4f7 50%,#fff 75%) !important;
+  background-size: 200% 100% !important;
+}
+
+/* ── Font size scale ───────────────────────────────────────────────────────── */
+html.text-sm-base { font-size: 13px; }
+html.text-md-base { font-size: 15px; }
+html.text-lg-base { font-size: 17px; }
+
+/* ── Base reset ────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; padding: 0; margin: 0; }
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track  { background: var(--bg-card); }
+::-webkit-scrollbar-thumb  { background: var(--border-color); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #3a4357; }
+
+/* ── Typography ────────────────────────────────────────────────────────────── */
+h1,h2,h3,h4,h5,h6 {
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+/* ── Accent color helpers ──────────────────────────────────────────────────── */
+.text-gradient {
+  color: #5c93f8;
+}
+.text-gradient-gold { color: #e09b3d; }
+.text-gradient-emerald { color: #3db88a; }
+
+/* ── Component: Card ───────────────────────────────────────────────────────── */
+.edu-card {
+  @apply bg-dark-card rounded-xl border border-dark-border p-6;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+.edu-card:hover {
+  border-color: #3a4a6e;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.45);
+}
+
+/* ── Component: Input ──────────────────────────────────────────────────────── */
+.edu-input {
+  @apply w-full px-3.5 py-2.5 rounded-lg text-sm;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+}
+.edu-input::placeholder { color: var(--text-secondary); opacity: 0.6; }
+.edu-input:focus {
+  border-color: #3a6ef0;
+  box-shadow: 0 0 0 3px rgba(58,110,240,0.2);
+}
+
+/* ── Component: Buttons ────────────────────────────────────────────────────── */
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium;
+  background: #3a6ef0;
+  color: #fff;
+  border: 1px solid #2d5cd8;
+  transition: background 0.15s, box-shadow 0.15s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.btn-primary:hover {
+  background: #4477f5;
+  box-shadow: 0 2px 8px rgba(58,110,240,0.35);
+}
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.btn-ghost:hover {
+  background: var(--bg-surface);
+  border-color: #3a4a6e;
+  color: var(--text-primary);
+}
+
+/* ── Component: Badge ──────────────────────────────────────────────────────── */
+.badge-admin {
+  @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
+  background: rgba(194,57,93,0.15);
+  color: #e0607e;
+  border: 1px solid rgba(194,57,93,0.25);
+}
+.badge-teacher {
+  @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
+  background: rgba(109,79,194,0.15);
+  color: #9b7fe8;
+  border: 1px solid rgba(109,79,194,0.25);
+}
+.badge-student {
+  @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
+  background: rgba(58,110,240,0.12);
+  color: #6e97f7;
+  border: 1px solid rgba(58,110,240,0.2);
+}
+
+/* ── Component: Sidebar item ───────────────────────────────────────────────── */
+.sidebar-item {
+  @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm;
+  color: var(--text-secondary);
+  transition: background 0.12s, color 0.12s;
+}
+.sidebar-item:hover { background: var(--bg-surface); color: var(--text-primary); }
+.sidebar-item.active {
+  background: var(--accent-dim);
+  color: #6e97f7;
+}
+
+/* ── Component: Table ──────────────────────────────────────────────────────── */
+.edu-table { @apply w-full text-sm; }
+.edu-table th {
+  @apply px-4 py-3 text-left font-medium text-xs uppercase tracking-wider;
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+.edu-table td {
+  @apply px-4 py-3;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(37,44,59,0.6);
+}
+.edu-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* ── Component: Chat bubbles ───────────────────────────────────────────────── */
+.chat-bubble-user {
+  @apply max-w-[80%] ml-auto px-4 py-3 rounded-2xl rounded-br-sm text-sm leading-relaxed;
+  background: #2550e4;
+  color: #fff;
+}
+.chat-bubble-ai {
+  @apply max-w-[80%] px-4 py-3 rounded-2xl rounded-bl-sm text-sm leading-relaxed;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+/* ── Component: Progress ───────────────────────────────────────────────────── */
+.progress-bar  { @apply h-1.5 rounded-full overflow-hidden bg-dark-surface; }
+.progress-fill {
+  @apply h-full rounded-full;
+  background: #3a6ef0;
+  transition: width 0.4s ease;
+}
+
+/* ── Component: Skeleton ───────────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-surface) 50%, var(--bg-card) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* ── Component: Code block ─────────────────────────────────────────────────── */
+.code-block {
+  @apply rounded-lg p-4 text-sm overflow-x-auto;
+  font-family: 'Fira Code', Consolas, monospace;
+  background: #0d1117;
+  border: 1px solid var(--border-color);
+  color: #c9d1d9;
+}
+
+/* ── Utility: Glassmorphism (used sparingly) ───────────────────────────────── */
+.glass {
+  background: rgba(24,28,36,0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sidebar-overlay { @apply fixed inset-0 bg-black/60 z-40; }
+}
+
+/* ── Animations ────────────────────────────────────────────────────────────── */
+@keyframes fadeIn  { from { opacity:0 } to { opacity:1 } }
+@keyframes slideUp { from { opacity:0; transform:translateY(12px) } to { opacity:1; transform:translateY(0) } }
