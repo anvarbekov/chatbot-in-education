@@ -103,18 +103,22 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 /* ── Component: Input ──────────────────────────────────────────────────────── */
-.edu-input {
-  @apply w-full px-3.5 py-2.5 rounded-lg text-sm;
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  transition: border-color 0.15s, box-shadow 0.15s;
-  outline: none;
-}
-.edu-input::placeholder { color: var(--text-secondary); opacity: 0.6; }
-.edu-input:focus {
-  border-color: #3a6ef0;
-  box-shadow: 0 0 0 3px rgba(58,110,240,0.2);
+@layer components {
+  .edu-input {
+    @apply w-full py-2.5 rounded-lg text-sm;
+    padding-left: 0.875rem;
+    padding-right: 0.875rem;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+  }
+  .edu-input::placeholder { color: var(--text-secondary); opacity: 0.6; }
+  .edu-input:focus {
+    border-color: #3a6ef0;
+    box-shadow: 0 0 0 3px rgba(58,110,240,0.2);
+  }
 }
 
 /* ── Component: Buttons ────────────────────────────────────────────────────── */

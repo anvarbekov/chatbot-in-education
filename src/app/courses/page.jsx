@@ -158,21 +158,25 @@ export default function CoursesPage() {
 
   const handleEnroll = async (course) => {
     if (!userProfile) { toast.error('Avval tizimga kiring'); return; }
+    if (userProfile.role === 'teacher' || userProfile.role === 'admin') {
+      toast.error("O'qituvchilar va adminlar kursga yozila olmaydi");
+      return;
+    }
     try {
-      const { doc, updateDoc, arrayUnion, setDoc, serverTimestamp } = await import('firebase/firestore');
+      const { doc, updateDoc, arrayUnion, setDoc, serverTimestamp, increment } = await import('firebase/firestore');
       if (course.isPublic) {
         await updateDoc(doc(db, 'users', userProfile.uid), {
           enrolledCourses: arrayUnion(course.id),
         });
         await updateDoc(doc(db, 'courses', course.id), {
-          studentsCount: (course.studentsCount || 0) + 1,
+          studentsCount: increment(1),
         });
         toast.success(`"${course.title}" kursiga yozildingiz!`);
       } else {
         await setDoc(doc(db, 'enrollmentRequests', `${userProfile.uid}_${course.id}`), {
           userId: userProfile.uid,
-          userName: userProfile.displayName,
-          userEmail: userProfile.email,
+          userName: userProfile.displayName || '',
+          userEmail: userProfile.email || '',
           courseId: course.id,
           courseTitle: course.title,
           status: 'pending',
@@ -181,7 +185,12 @@ export default function CoursesPage() {
         toast.success("So'rov yuborildi! O'qituvchi tasdiqlaydi.");
       }
     } catch (e) {
-      toast.error('Xatolik yuz berdi');
+      console.error('Enroll error:', e);
+      if (e.code === 'permission-denied') {
+        toast.error("Ruxsat yo'q. Tizimga qayta kiring.");
+      } else {
+        toast.error('Xatolik: ' + (e.message || "Qayta urinib ko'ring"));
+      }
     }
   };
 
